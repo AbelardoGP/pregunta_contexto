@@ -46,7 +46,7 @@ with col1:
     st.write("4. Click Create new secret key.")
 
 with col2:
-    st.title("Evaluación con GPT-4")
+    st.title("Pregunta sobre el contenido de un archivo a GPT-3.5-turbo")
 
     st.subheader("Carga de Contexto")
 
