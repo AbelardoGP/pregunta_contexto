@@ -53,7 +53,7 @@ with col2:
     uploaded_contexto = st.file_uploader("Cargar Contexto (pdf, txt o docx)", type=['pdf', 'txt', 'docx'])
 
     api_key = st.text_input("API KEY de OpenAI")
-    instruccion = st.text_input("Instrucción para GPT-3.5-turbo")
+    instruccion = st.text_input("Tomando en cuenta el contenido del archivo anterior, quiero que...")
 
     if uploaded_contexto and api_key and instruccion:
         contexto = read_file(uploaded_contexto)
