@@ -62,7 +62,7 @@ with col2:
 
         st.subheader("Resultado de GPT-3.5 turbo")
 
-        if st.button("Enviar a GPT-4"):
+        if st.button("Enviar a GPT"):
             model_engine = "gpt-3.5-turbo" # Reemplazar con el nombre del motor GPT-4 que desee utilizar
             messages = [
                 {"role": "system", "content": "You are a helpful assistant."},
