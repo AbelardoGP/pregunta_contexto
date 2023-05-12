@@ -7,6 +7,8 @@ from PyPDF2 import PdfReader
 from docx import Document
 import re
 
+st.set_page_config(layout="wide")
+
 def read_pdf(pdf_file):
     with open(pdf_file, "rb") as file:
         reader = PdfReader(file)
@@ -51,17 +53,17 @@ with col2:
     uploaded_contexto = st.file_uploader("Cargar Contexto (pdf, txt o docx)", type=['pdf', 'txt', 'docx'])
 
     api_key = st.text_input("API KEY de OpenAI")
-    instruccion = st.text_input("Instrucción para GPT-4")
+    instruccion = st.text_input("Instrucción para GPT-3.5-turbo")
 
     if uploaded_contexto and api_key and instruccion:
         contexto = read_file(uploaded_contexto)
 
         openai.api_key = api_key
 
-        st.subheader("Resultado de GPT-4")
+        st.subheader("Resultado de GPT-3.5 turbo")
 
         if st.button("Enviar a GPT-4"):
-            model_engine = "your_model_engine" # Reemplazar con el nombre del motor GPT-4 que desee utilizar
+            model_engine = "gpt-3.5-turbo" # Reemplazar con el nombre del motor GPT-4 que desee utilizar
             messages = [
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": f"Tomando en cuenta el archivo contexto:\n{contexto}\n\nInstrucción:\n{instruccion}"}
@@ -69,7 +71,7 @@ with col2:
             response = openai.ChatCompletion.create(
                 model=model_engine,
                 messages=messages,
-                max_tokens=150,
+                max_tokens=900,
                 n=1,
                 stop=None,
                 temperature=0.8,
