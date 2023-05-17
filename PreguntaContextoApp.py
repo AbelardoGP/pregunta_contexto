@@ -57,4 +57,20 @@ with col2:
 
         openai.api_key = api_key
 
-        st.subheader("Resultado de GPT-3
+        st.subheader("Resultado de GPT-3.5 turbo")
+
+        if st.button("Enviar a GPT"):
+            model_engine = "gpt-3.5-turbo" # Reemplazar con el nombre del motor GPT-4 que desee utilizar
+            messages = [
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": f"Tomando en cuenta el archivo contexto:\n{contexto}\n\nInstrucción:\n{instruccion}"}
+            ]
+            response = openai.ChatCompletion.create(
+                model=model_engine,
+                messages=messages,
+                max_tokens=900,
+                n=1,
+                stop=None,
+                temperature=0.8,
+            )
+            st.write(response.choices[0].message['content'].strip())
