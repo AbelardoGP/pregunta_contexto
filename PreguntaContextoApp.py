@@ -3,14 +3,14 @@ import openai
 from io import BytesIO
 import base64
 import requests
-from PyPDF2 import PdfReader, PdfFileReader
+from PyPDF2 import PdfReader
 from docx import Document
 import re
 
 st.set_page_config(layout="wide")
 
 def read_pdf(pdf_file):
-    reader = PdfFileReader(pdf_file)
+    reader = PdfReader(pdf_file)
     text = "".join(page.extract_text() for page in reader.pages)
     return text
 
