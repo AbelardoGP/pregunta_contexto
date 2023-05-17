@@ -3,22 +3,19 @@ import openai
 from io import BytesIO
 import base64
 import requests
-from PyPDF2 import PdfReader
+from PyPDF2 import PdfReader, PdfFileReader
 from docx import Document
 import re
 
 st.set_page_config(layout="wide")
 
 def read_pdf(pdf_file):
-    with open(pdf_file, "rb") as file:
-        reader = PdfReader(file)
-        text = "".join(page.extract_text() for page in reader.pages)
+    reader = PdfFileReader(pdf_file)
+    text = "".join(page.extract_text() for page in reader.pages)
     return text
 
 def read_txt(txt_file):
-    with open(txt_file, "r") as file:
-        text = file.read()
-    return text
+    return txt_file.read().decode()
 
 def read_docx(docx_file):
     document = Document(docx_file)
@@ -28,11 +25,11 @@ def read_docx(docx_file):
 def read_file(file):
     extension = file.name.split(".")[-1].lower()
     if extension == "pdf":
-        return read_pdf(file)
+        return read_pdf(BytesIO(file.read()))
     elif extension == "txt":
-        return read_txt(file)
+        return read_txt(BytesIO(file.read()))
     elif extension == "docx":
-        return read_docx(file)
+        return read_docx(BytesIO(file.read()))
     else:
         raise ValueError("Formato de archivo no compatible")
 
@@ -60,20 +57,4 @@ with col2:
 
         openai.api_key = api_key
 
-        st.subheader("Resultado de GPT-3.5 turbo")
-
-        if st.button("Enviar a GPT"):
-            model_engine = "gpt-3.5-turbo" # Reemplazar con el nombre del motor GPT-4 que desee utilizar
-            messages = [
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": f"Tomando en cuenta el archivo contexto:\n{contexto}\n\nInstrucción:\n{instruccion}"}
-            ]
-            response = openai.ChatCompletion.create(
-                model=model_engine,
-                messages=messages,
-                max_tokens=900,
-                n=1,
-                stop=None,
-                temperature=0.8,
-            )
-            st.write(response.choices[0].message['content'].strip())
+        st.subheader("Resultado de GPT-3
